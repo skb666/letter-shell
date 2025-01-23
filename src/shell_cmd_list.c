@@ -18,6 +18,11 @@ extern void shellUp(Shell *shell);
 extern void shellDown(Shell *shell);
 extern void shellRight(Shell *shell);
 extern void shellLeft(Shell *shell);
+extern void shellCtrlL(Shell *shell);
+extern void shellCtrlU(Shell *shell);
+extern void shellCtrlK(Shell *shell);
+extern void shellCtrlA(Shell *shell);
+extern void shellCtrlE(Shell *shell);
 extern void shellTab(Shell *shell);
 extern void shellBackspace(Shell *shell);
 extern void shellDelete(Shell *shell);
@@ -53,6 +58,19 @@ const ShellCommand shellCommandList[] =
                    0x1B5B4300, shellRight, right),
     SHELL_KEY_ITEM(SHELL_CMD_PERMISSION(0)|SHELL_CMD_ENABLE_UNCHECKED,
                    0x1B5B4400, shellLeft, left),
+    SHELL_KEY_ITEM(SHELL_CMD_PERMISSION(0), 0x0C000000, shellCtrlL, Ctrl + L),
+    SHELL_KEY_ITEM(SHELL_CMD_PERMISSION(0) | SHELL_CMD_ENABLE_UNCHECKED,
+                    0x15000000, shellCtrlU, Ctrl + U),
+    SHELL_KEY_ITEM(SHELL_CMD_PERMISSION(0) | SHELL_CMD_ENABLE_UNCHECKED,
+                    0x0B000000, shellCtrlK, Ctrl + K),
+    SHELL_KEY_ITEM(SHELL_CMD_PERMISSION(0) | SHELL_CMD_ENABLE_UNCHECKED,
+                    0x01000000, shellCtrlA, Ctrl + A),
+    SHELL_KEY_ITEM(SHELL_CMD_PERMISSION(0) | SHELL_CMD_ENABLE_UNCHECKED,
+                    0x1B5B4800, shellCtrlA, Home),
+    SHELL_KEY_ITEM(SHELL_CMD_PERMISSION(0) | SHELL_CMD_ENABLE_UNCHECKED,
+                    0x05000000, shellCtrlE, Ctrl + E),
+    SHELL_KEY_ITEM(SHELL_CMD_PERMISSION(0) | SHELL_CMD_ENABLE_UNCHECKED,
+                    0x1B5B4600, shellCtrlE, End),
     SHELL_KEY_ITEM(SHELL_CMD_PERMISSION(0), 0x09000000, shellTab, tab),
     SHELL_KEY_ITEM(SHELL_CMD_PERMISSION(0)|SHELL_CMD_ENABLE_UNCHECKED,
                    0x08000000, shellBackspace, backspace),

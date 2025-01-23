@@ -1557,6 +1557,88 @@ SHELL_EXPORT_KEY(SHELL_CMD_PERMISSION(0)|SHELL_CMD_ENABLE_UNCHECKED,
 
 
 /**
+ * @brief shell清空命令行
+ *
+ * @param shell shell对象
+ */
+void shellCtrlL(Shell *shell)
+{
+    shellWriteString(shell, "\033c");
+    shellWritePrompt(shell, 1);
+}
+SHELL_EXPORT_KEY(SHELL_CMD_PERMISSION(0), 0x0C000000, shellCtrlL, Ctrl + L);
+
+
+/**
+ * @brief shell删除光标左边的所有字符
+ *
+ * @param shell shell对象
+ */
+void shellCtrlU(Shell *shell)
+{
+    while (shell->parser.cursor)
+    {
+        shellDeleteByte(shell, 1);
+    }
+}
+SHELL_EXPORT_KEY(SHELL_CMD_PERMISSION(0)|SHELL_CMD_ENABLE_UNCHECKED,
+0x15000000, shellCtrlU, Ctrl + U);
+
+
+/**
+ * @brief shell删除光标右边的所有字符
+ *
+ * @param shell shell对象
+ */
+void shellCtrlK(Shell *shell)
+{
+    while (shell->parser.cursor < shell->parser.length)
+    {
+        shellDeleteByte(shell, -1);
+    }
+}
+SHELL_EXPORT_KEY(SHELL_CMD_PERMISSION(0)|SHELL_CMD_ENABLE_UNCHECKED,
+0x0B000000, shellCtrlK, Ctrl + K);
+
+
+/**
+ * @brief shell移动光标到头
+ *
+ * @param shell shell对象
+ */
+void shellCtrlA(Shell *shell)
+{
+    while (shell->parser.cursor > 0)
+    {
+        shellWriteByte(shell, '\b');
+        shell->parser.cursor--;
+    }
+}
+SHELL_EXPORT_KEY(SHELL_CMD_PERMISSION(0)|SHELL_CMD_ENABLE_UNCHECKED,
+0x01000000, shellCtrlA, Ctrl + A);
+SHELL_EXPORT_KEY(SHELL_CMD_PERMISSION(0)|SHELL_CMD_ENABLE_UNCHECKED,
+0x1B5B4800, shellCtrlA, Home);
+
+
+/**
+ * @brief shell移动光标到尾
+ *
+ * @param shell shell对象
+ */
+void shellCtrlE(Shell *shell)
+{
+    while (shell->parser.cursor < shell->parser.length)
+    {
+        shellWriteByte(shell, shell->parser.buffer[shell->parser.cursor++]);
+    }
+}
+SHELL_EXPORT_KEY(SHELL_CMD_PERMISSION(0)|SHELL_CMD_ENABLE_UNCHECKED,
+0x05000000, shellCtrlE, Ctrl + E);
+SHELL_EXPORT_KEY(SHELL_CMD_PERMISSION(0)|SHELL_CMD_ENABLE_UNCHECKED,
+0x1B5B4600, shellCtrlE, End);
+
+
+/**
  * @brief shell Tab按键处理
  * 
  * @param shell shell对象
